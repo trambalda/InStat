@@ -20,7 +20,7 @@ class StandingsPresenter: StandingsPresenterProtocol {
     }
     
     func loadData(id: String, year: String) {
-        NetworkService.shared.dataRequest(with: "https://api-football-standings.azharimm.site/leagues/\(id)/standings?season=\(year)&sort=asc", objectType: LeagueStandings.self) { [self] result in
+        NetworkService.shared.dataRequest(with: "\(Constant.mainUrl)/leagues/\(id)/standings?season=\(year)&sort=asc", objectType: LeagueStandings.self) { [self] result in
             switch result {
             case .success(let object):
                 view.setStandings(object.data.standings)

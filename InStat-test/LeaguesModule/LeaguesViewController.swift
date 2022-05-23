@@ -13,10 +13,6 @@ protocol LeaguesViewProtocol: AnyObject {
 
 class LeaguesViewController: UIViewController {
     
-    deinit {
-        print(#function, "LeaguesViewController")
-    }
-    
     private var presenter: LeaguesPresenterProtocol!
 
     let horizontalInsets: CGFloat = 24 // спейсинг по горизонтали
@@ -46,7 +42,7 @@ class LeaguesViewController: UIViewController {
         presenter = LeaguesPresenter(view: self)
         presenter.loadData()
         view.backgroundColor = Constant.backgroundColor
-        setupNavigationBarTitle()
+        navigationItem.setTitle(with: "Leagues")
         setupConstraints()
     }
     
@@ -92,26 +88,18 @@ class LeaguesViewController: UIViewController {
         let lesserValue = b.width < b.height ? b.width : b.height
         let higherValue = b.width > b.height ? b.width : b.height
         var screenWidth = lesserValue
-        var columns: CGFloat = 2
+        var columns: CGFloat = Constant.Leagues.columnsPortrait
         
         switch UIDevice.current.orientation {
         case .landscapeLeft, .landscapeRight:
-            columns = 4
+            columns = Constant.Leagues.columnsLandscape
             screenWidth = higherValue - Constant.getInset()
         default:
             break
         }
         let itemWidth = (screenWidth - (columns + 1) * horizontalInsets) / columns
-        let itemHeight = itemWidth + 60
+        let itemHeight = itemWidth + Constant.Leagues.titleHeight
         return CGSize(width: itemWidth, height: itemHeight)
-    }
-    
-    private func setupNavigationBarTitle() {
-        let titleLabel = UILabel()
-        titleLabel.text = "Leagues"
-        titleLabel.font = UIFont.systemFont(ofSize: 22, weight: .heavy)
-        titleLabel.textColor = .white
-        navigationItem.titleView = titleLabel
     }
     
     private func setupConstraints() {
@@ -149,8 +137,7 @@ extension LeaguesViewController: UICollectionViewDataSource, UICollectionViewDel
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let league = leagues[indexPath.row]
         
-        let vc = SeasonsViewController()
-        vc.id = league.id
+        let vc = SeasonsViewController(leagueId: league.id)
         navigationController?.pushViewController(vc, animated: true)
     }
 }

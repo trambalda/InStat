@@ -8,20 +8,16 @@
 import UIKit
 
 protocol SelectViewProtocol {
-    var delegate: StandingsViewDelegate? { get set }
+    var delegate: StandingsViewDelegateProtocol? { get set }
 }
 
 class SelectViewController: UITableViewController, SelectViewProtocol {
     
-    deinit {
-        print(#function, "SelectViewController")
-    }
-
     let cellId = "CellId"
     var seasons: [Season]!
-    var delegate: StandingsViewDelegate?
+    var delegate: StandingsViewDelegateProtocol?
 
-    init(seasons: [Season], delegate: StandingsViewDelegate) {
+    init(seasons: [Season], delegate: StandingsViewDelegateProtocol) {
         self.seasons = seasons
         self.delegate = delegate
         super.init(nibName: nil, bundle: nil)

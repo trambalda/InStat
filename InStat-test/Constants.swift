@@ -8,6 +8,8 @@
 import UIKit
 
 enum Constant {
+    
+    static let mainUrl = "https://api-football-standings.azharimm.site"
     static let backgroundColor = UIColor(red: 32/255, green: 112/255, blue: 50/255, alpha: 1)
 
     static func getBoldFont(size: CGFloat) -> UIFont {
@@ -29,6 +31,7 @@ enum Constant {
     /*
      Получить размер челки на устройстве, чтобы сделать отступ для контента при просмотре в ландшафте.
      Для устройств без челки отступа не нужно.
+     По сути будет либо 44 либо 0.
      */
     static func getInset() -> CGFloat {
         var inset: CGFloat = 0
@@ -54,6 +57,15 @@ enum Constant {
 //        } else {
 //            print("Landscape: \(size.width) X \(size.height)")
 //        }
+    }
+    
+    /*
+     Константы для настройки количества колонок в портретном и ландшафтном режиме на экране с лигами
+     */
+    enum Leagues {
+        static let columnsPortrait: CGFloat = 2
+        static let columnsLandscape: CGFloat = 4
+        static let titleHeight: CGFloat = 60
     }
     
     /*

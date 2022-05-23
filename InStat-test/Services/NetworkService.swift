@@ -8,6 +8,7 @@
 import UIKit
 
 class NetworkService {
+    
     static let shared = NetworkService()
     private init() {}
     
@@ -21,6 +22,8 @@ class NetworkService {
         case success(T)
         case failure(AppError)
     }
+
+    // MARK: LOAD & FETCH JSON
 
     func dataRequest<T: Decodable>(with url: String, objectType: T.Type, completion: @escaping (Result<T>) -> Void) {
         let dataURL = URL(string: url)!
@@ -44,6 +47,9 @@ class NetworkService {
         })
         task.resume()
     }
+    
+    
+    // MARK: LOAD & CACHE IMAGE
     
     private let imageCache = NSCache<AnyObject, AnyObject>()
 

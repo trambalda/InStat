@@ -11,15 +11,11 @@ protocol StandingsViewProtocol: AnyObject {
     func setStandings(_ standings: [Standing])
 }
 
-protocol StandingsViewDelegate {
+protocol StandingsViewDelegateProtocol {
     func changeSeason(to newYear: Int)
 }
 
 class StandingsViewController: UIViewController {
-
-    deinit {
-        print(#function, "StandingsViewController")
-    }
 
     private var presenter: StandingsPresenterProtocol!
     var id: String!
@@ -85,11 +81,7 @@ class StandingsViewController: UIViewController {
     }
     
     private func setNavigationBarTitle() {
-        let titleLabel = UILabel()
-        titleLabel.text = "Standings \(year ?? "")"
-        titleLabel.font = UIFont.systemFont(ofSize: 22, weight: .heavy)
-        titleLabel.textColor = .white
-        navigationItem.titleView = titleLabel
+        navigationItem.setTitle(with: "Standings \(year ?? "")")
     }
 
     @objc func changeSeasonButtonTapped() {
@@ -139,7 +131,7 @@ extension StandingsViewController: StandingsViewProtocol {
     }
 }
 
-extension StandingsViewController: StandingsViewDelegate {
+extension StandingsViewController: StandingsViewDelegateProtocol {
     public func changeSeason(to newYear: Int) {
         year = newYear.description
         presenter.loadData(id: id, year: year)

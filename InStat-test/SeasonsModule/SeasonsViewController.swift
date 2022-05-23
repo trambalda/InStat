@@ -13,10 +13,6 @@ protocol SeasonsViewProtocol: AnyObject {
 
 class SeasonsViewController: UIViewController {
 
-    deinit {
-        print(#function, "SeasonsViewController")
-    }
-
     private var presenter: SeasonsPresenterProtocol!
     var id: String!
     
@@ -34,12 +30,21 @@ class SeasonsViewController: UIViewController {
 
     var seasons: [Season] = []
 
+    init(leagueId: String) {
+        self.id = leagueId
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter = SeasonsPresenter(view: self)
         presenter.loadData(id: id)
         view.backgroundColor = .white
-        setupNavigationBarTitle()
+        navigationItem.setTitle(with: "Seasons")
         setupConstraints()
     }
     
@@ -51,14 +56,6 @@ class SeasonsViewController: UIViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         resetConstraints()
-    }
-
-    private func setupNavigationBarTitle() {
-        let titleLabel = UILabel()
-        titleLabel.text = "Seasons"
-        titleLabel.font = UIFont.systemFont(ofSize: 22, weight: .heavy)
-        titleLabel.textColor = .white
-        navigationItem.titleView = titleLabel
     }
 
     private func resetConstraints() {

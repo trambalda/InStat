@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 extension DateFormatter {
     func inStatFormatDate(date: String) -> String {
@@ -20,5 +21,15 @@ extension DateFormatter {
         } else {
             return ""
         }
+    }
+}
+
+extension UINavigationItem {
+    func setTitle(with name: String) {
+        let titleLabel = UILabel()
+        titleLabel.text = name
+        titleLabel.font = UIFont.systemFont(ofSize: 22, weight: .heavy)
+        titleLabel.textColor = .white
+        titleView = titleLabel
     }
 }

@@ -20,7 +20,7 @@ class LeaguesPresenter: LeaguesPresenterProtocol {
     }
     
     func loadData() {
-        NetworkService.shared.dataRequest(with: "https://api-football-standings.azharimm.site/leagues", objectType: Leagues.self) { [self] result in
+        NetworkService.shared.dataRequest(with: "\(Constant.mainUrl)/leagues", objectType: Leagues.self) { [self] result in
             switch result {
             case .success(let object):
                 view.setLeagues(object.data)
