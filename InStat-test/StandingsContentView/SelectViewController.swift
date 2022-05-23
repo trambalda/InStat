@@ -8,16 +8,16 @@
 import UIKit
 
 protocol SelectViewProtocol {
-    var delegate: StandingsViewDelegateProtocol? { get set }
+    var delegate: SelectViewDelegateProtocol? { get set }
 }
 
 class SelectViewController: UITableViewController, SelectViewProtocol {
-    
+
     let cellId = "CellId"
     var seasons: [Season]!
-    var delegate: StandingsViewDelegateProtocol?
+    var delegate: SelectViewDelegateProtocol?
 
-    init(seasons: [Season], delegate: StandingsViewDelegateProtocol) {
+    init(seasons: [Season], delegate: SelectViewDelegateProtocol) {
         self.seasons = seasons
         self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
@@ -49,7 +49,7 @@ class SelectViewController: UITableViewController, SelectViewProtocol {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedYear = seasons[indexPath.row].year
-        delegate?.changeSeason(to: selectedYear)
+        delegate?.changeSeason(to: selectedYear.description)
         dismiss(animated: true)
     }
     

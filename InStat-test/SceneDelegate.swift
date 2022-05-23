@@ -13,9 +13,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         
-        window?.rootViewController = UINavigationController(rootViewController: LeaguesViewController())
+        let assembler = Assembler()
+        let router = Router(assembler: assembler)
+        
+        window = UIWindow(frame: windowScene.coordinateSpace.bounds)
+        let leaguesScreen = assembler.createLeaguesScreen(router: router)
+        window?.rootViewController = UINavigationController(rootViewController: leaguesScreen)
         window?.windowScene = windowScene
         window?.makeKeyAndVisible()
         
