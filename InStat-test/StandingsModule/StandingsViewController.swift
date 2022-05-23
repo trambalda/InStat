@@ -17,15 +17,18 @@ protocol StandingsViewDelegate {
 
 class StandingsViewController: UIViewController {
 
+    deinit {
+        print(#function, "StandingsViewController")
+    }
+
     private var presenter: StandingsPresenterProtocol!
     var id: String!
     var year: String! {
         didSet {
-            print("didset")
-            setNavigationTitle()
+            setNavigationBarTitle()
         }
     }
-    var seasons: [Season] = []
+    var seasons: [Season]!
     
     lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -44,6 +47,17 @@ class StandingsViewController: UIViewController {
 
     var standings: [Standing] = []
 
+    init(seasons: [Season], id: String, year: String) {
+        self.seasons = seasons
+        self.id = id
+        self.year = year
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter = StandingsPresenter(view: self)
@@ -65,23 +79,12 @@ class StandingsViewController: UIViewController {
     }
 
     private func setupNavigationBar() {
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = Constant.backgroundColor
-        appearance.shadowColor = .white
-        navigationItem.standardAppearance = appearance
-        navigationItem.scrollEdgeAppearance = appearance
-        
-        setNavigationTitle()
-
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(backButtonTapped))
-        navigationItem.leftBarButtonItem?.tintColor = .white
-
+        setNavigationBarTitle()
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Change", style: .plain, target: self, action: #selector(changeSeasonButtonTapped))
         navigationItem.rightBarButtonItem?.tintColor = .white
     }
     
-    private func setNavigationTitle() {
+    private func setNavigationBarTitle() {
         let titleLabel = UILabel()
         titleLabel.text = "Standings \(year ?? "")"
         titleLabel.font = UIFont.systemFont(ofSize: 22, weight: .heavy)
@@ -94,10 +97,6 @@ class StandingsViewController: UIViewController {
         present(vc, animated: true)
     }
 
-    @objc func backButtonTapped() {
-        dismiss(animated: true)
-    }
-    
     private func resetConstraints() {
         let inset = Constant.getInset()
         tvLeadingAnchor?.constant = 0

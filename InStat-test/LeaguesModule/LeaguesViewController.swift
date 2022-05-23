@@ -13,6 +13,10 @@ protocol LeaguesViewProtocol: AnyObject {
 
 class LeaguesViewController: UIViewController {
     
+    deinit {
+        print(#function, "LeaguesViewController")
+    }
+    
     private var presenter: LeaguesPresenterProtocol!
 
     let horizontalInsets: CGFloat = 24 // спейсинг по горизонтали
@@ -42,7 +46,7 @@ class LeaguesViewController: UIViewController {
         presenter = LeaguesPresenter(view: self)
         presenter.loadData()
         view.backgroundColor = Constant.backgroundColor
-        setupNavigationBar()
+        setupNavigationBarTitle()
         setupConstraints()
     }
     
@@ -102,14 +106,7 @@ class LeaguesViewController: UIViewController {
         return CGSize(width: itemWidth, height: itemHeight)
     }
     
-    private func setupNavigationBar() {
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = Constant.backgroundColor
-        appearance.shadowColor = .white
-        navigationItem.standardAppearance = appearance
-        navigationItem.scrollEdgeAppearance = appearance
-
+    private func setupNavigationBarTitle() {
         let titleLabel = UILabel()
         titleLabel.text = "Leagues"
         titleLabel.font = UIFont.systemFont(ofSize: 22, weight: .heavy)
@@ -154,10 +151,7 @@ extension LeaguesViewController: UICollectionViewDataSource, UICollectionViewDel
         
         let vc = SeasonsViewController()
         vc.id = league.id
-        let nc = UINavigationController(rootViewController: vc)
-        nc.modalTransitionStyle = .crossDissolve
-        nc.modalPresentationStyle = .fullScreen
-        present(nc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 

@@ -13,6 +13,10 @@ protocol SeasonsViewProtocol: AnyObject {
 
 class SeasonsViewController: UIViewController {
 
+    deinit {
+        print(#function, "SeasonsViewController")
+    }
+
     private var presenter: SeasonsPresenterProtocol!
     var id: String!
     
@@ -35,7 +39,7 @@ class SeasonsViewController: UIViewController {
         presenter = SeasonsPresenter(view: self)
         presenter.loadData(id: id)
         view.backgroundColor = .white
-        setupNavigationBar()
+        setupNavigationBarTitle()
         setupConstraints()
     }
     
@@ -49,26 +53,12 @@ class SeasonsViewController: UIViewController {
         resetConstraints()
     }
 
-    private func setupNavigationBar() {
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = Constant.backgroundColor
-        appearance.shadowColor = .white
-        navigationItem.standardAppearance = appearance
-        navigationItem.scrollEdgeAppearance = appearance
-
+    private func setupNavigationBarTitle() {
         let titleLabel = UILabel()
         titleLabel.text = "Seasons"
         titleLabel.font = UIFont.systemFont(ofSize: 22, weight: .heavy)
         titleLabel.textColor = .white
         navigationItem.titleView = titleLabel
-
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(backButtonTapped))
-        navigationItem.leftBarButtonItem?.tintColor = .white
-    }
-
-    @objc func backButtonTapped() {
-        dismiss(animated: true)
     }
 
     private func resetConstraints() {
@@ -133,15 +123,8 @@ extension SeasonsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let season = seasons[indexPath.row]
-        let vc = StandingsViewController()
-        vc.id = id
-        vc.year = season.year.description
-        vc.seasons = seasons
-        let nc = UINavigationController(rootViewController: vc)
-        nc.modalTransitionStyle = .crossDissolve
-        nc.modalPresentationStyle = .fullScreen
-        present(nc, animated: true)
-        
+        let vc = StandingsViewController(seasons: seasons, id: id, year: season.year.description)
+        navigationController?.pushViewController(vc, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

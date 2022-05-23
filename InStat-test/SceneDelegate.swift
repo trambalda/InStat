@@ -18,6 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = UINavigationController(rootViewController: LeaguesViewController())
         window?.windowScene = windowScene
         window?.makeKeyAndVisible()
+        
     }
 
 }

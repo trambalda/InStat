@@ -13,6 +13,10 @@ protocol SelectViewProtocol {
 
 class SelectViewController: UITableViewController, SelectViewProtocol {
     
+    deinit {
+        print(#function, "SelectViewController")
+    }
+
     let cellId = "CellId"
     var seasons: [Season]!
     var delegate: StandingsViewDelegate?
