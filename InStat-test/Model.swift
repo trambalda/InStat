@@ -8,7 +8,7 @@
 import Foundation
 
 struct Leagues: Decodable {
-    //let status: Bool
+    let status: Bool
     let data: [League]
 }
 
